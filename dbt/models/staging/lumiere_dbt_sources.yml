@@ -1,0 +1,131 @@
+# models/staging/sources.yml
+# after the snake_case() conversion in 03_load_to_postgres.ipynb
+
+version: 2
+
+sources:
+  - name: lumiere_raw
+    description: >
+      Raw tables loaded from Lumiere_EU_Ecommerce.xlsx via notebook 03.
+      Column names were snake_cased (spaces → underscores, lowercased).
+      Schema: raw | Database: lumiere_analytics | Period: 2024-01-01 to 2025-12-31
+    database: lumiere_analytics
+    schema: raw
+
+    tables:
+    # orders
+      - name: orders
+        description: One row per order line. Grain = order_id.
+        columns:
+          - name: order_id
+            description: Unique order identifier.
+            tests: [unique, not_null]
+          - name: order_date
+            tests: [not_null]
+          - name: ship_date
+            tests: [not_null]
+          - name: customer_id
+            tests:
+              - not_null
+              - relationships:
+                  to: source('lumiere_raw', 'customers')
+                  field: customer_id
+          - name: product_id
+            tests:
+              - not_null
+              - relationships:
+                  to: source('lumiere_raw', 'products')
+                  field: product_id
+          - name: country
+            tests:
+              - not_null
+              - accepted_values:
+                  values: [France, Germany, Italy, Spain, Portugal, Netherlands, Belgium, Ireland]
+          - name: channel
+            tests:
+              - accepted_values:
+                  values: [Web, Mobile App, Marketplace]
+          - name: quantity
+            tests: [not_null]
+          - name: unit_price
+            tests: [not_null]
+          - name: discount
+            description: Fractional discount 0.0–0.5 (e.g. 0.1 = 10% off).
+            tests: [not_null]
+          - name: shipping_cost
+            tests: [not_null]
+          - name: payment_method
+            tests:
+              - accepted_values:
+                  values: [Credit Card, PayPal, Bank Transfer, Apple Pay, Klarna]
+      # products
+      - name: products
+        description: Product master. Grain = product_id.
+        columns:
+          - name: product_id
+            tests: [unique, not_null]
+          - name: product_name
+            tests: [not_null]
+          - name: category
+            tests:
+              - accepted_values:
+                  values: [Apparel, Footwear, Accessories, Home & Living, Beauty]
+          - name: sub-category  
+            quote: true      
+            tests: [not_null]
+          - name: brand
+            tests: [not_null]
+          - name: unit_cost
+            tests: [not_null]
+          - name: list_price
+            tests: [not_null]
+          - name: launch_date
+
+      # customers
+      - name: customers
+        description: Customer master. Grain = customer_id.
+        columns:
+          - name: customer_id
+            tests: [unique, not_null]
+          - name: customer_name
+          - name: segment
+            tests:
+              - accepted_values:
+                  values: [Consumer, Business, Premium]
+          - name: country
+            tests: [not_null]
+          - name: city
+          - name: acquisition_date
+            tests: [not_null]
+          - name: acquisition_channel
+            tests:
+              - accepted_values:
+                  values: [Paid Search, Organic Search, Direct, Email, Social, Referral]
+
+      # returns
+      - name: returns
+        description: Return events. Grain = order_id (one return per order).
+        columns:
+          - name: order_id
+            tests:
+              - not_null
+              - unique
+              - relationships:
+                  to: source('lumiere_raw', 'orders')
+                  field: order_id
+          - name: return_date
+            tests: [not_null]
+          - name: reason
+            tests: [not_null]
+
+      # sales_targets
+      - name: sales_targets
+        description: Monthly revenue targets by country. Grain = country + year-month.
+        columns:
+          - name: country
+            tests: [not_null]
+          - name: year-month  
+            quote: true         
+            tests: [not_null]
+          - name: target_revenue
+            tests: [not_null]

@@ -1,0 +1,53 @@
+# models/marts/schema.yml
+# Tests on the final mart models that Tableau connects to.
+
+version: 2
+
+models:
+
+  - name: fct_orders
+    description: >
+      One row per order. Combines stg_orders + stg_products + stg_returns.
+      This is the primary table for Tableau — connect to this for all
+      revenue, margin, discount, and returns analysis.
+    columns:
+      - name: order_id
+        tests: [unique, not_null]
+      - name: customer_id
+        tests: [not_null]
+      - name: net_revenue
+        tests: [not_null]
+      - name: is_return
+        tests:
+          - accepted_values:
+              values: [0, 1]
+      - name: disc_tier
+        tests:
+          - accepted_values:
+              values: ['No discount', '1-10%', '11-20%', '21-30%', '31-50%']
+
+  - name: mart_commercial_kpis
+    description: >
+      Pre-aggregated commercial KPIs by year_month, country, channel,
+      category, brand, and disc_tier. Matches the kpis_commercial and
+      disc_impact DataFrames computed in notebook 02.
+
+  - name: mart_customer_kpis
+    description: >
+      One row per customer with RFM scores, segment labels, and CLV.
+      Segment thresholds match notebook 02 exactly:
+      Champions(>=13), Loyal Customers(>=10), Potential Loyalists(>=7),
+      Needs Attention(>=4), At Risk(<4).
+    columns:
+      - name: customer_id
+        tests: [unique, not_null]
+      - name: rfm_segment
+        tests:
+          - accepted_values:
+              values: ['Champions', 'Loyal Customers', 'Potential Loyalists',
+                       'Needs Attention', 'At Risk']
+
+  - name: mart_country_targets
+    description: >
+      Actual vs target revenue by country and month, with YoY growth %.
+      Matches the country_kpis parquet saved in notebook 02 cell 41.

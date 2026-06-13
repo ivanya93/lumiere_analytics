@@ -1,0 +1,11 @@
+### requirements.txt
+
+
+pandas
+numpy
+openpyxl
+pyarrow
+sqlalchemy
+psycopg2-binary
+python-dotenv
+matplotlib

@@ -1,0 +1,30 @@
+# Credentials — never commit
+.env
+
+# macOS
+.DS_Store
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+.ipynb_checkpoints/
+
+# dbt build artifacts
+dbt/target/
+dbt/dbt_packages/
+dbt/logs/
+
+# Logs
+logs/
+
+# Claude Code session files
+.claude/
+
+# Tableau temp/lock files
+tableau/.~*
+
+# Empty output folders (tracked via .gitkeep if needed)
+reports/
+docs/
