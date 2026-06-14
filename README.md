@@ -36,6 +36,8 @@ Excel (raw)
 
 The Python notebooks **explore and validate** the logic; dbt **productionises** the same metrics as tested, version-controlled SQL models that Tableau consumes directly.
 
+![Data Architecture](<data architecture lumiere.jpg>)
+
 ## 📁 Repository Structure
 
 ```
