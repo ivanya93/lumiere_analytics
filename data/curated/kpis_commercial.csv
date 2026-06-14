@@ -1,0 +1,9 @@
+KPI,Value,Formula
+Net Revenue,"€20,217,136",Unit Price × Qty × (1−Discount)
+Gross Profit,"€10,700,421",Net Revenue − COGS
+Gross Margin %,52.9%,(Net Rev − COGS) / Net Rev
+Avg Order Value,€246.55,Net Revenue / Order Count
+Avg Discount %,9.1%,Discount Amount / Gross Revenue
+Return Rate,7.5%,Returned Orders / Total Orders
+Total Orders,"82,000",COUNT(DISTINCT order_id)
+Unique Products,177,COUNT(DISTINCT product_id)

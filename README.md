@@ -151,11 +151,11 @@ matplotlib
 
 ## 📈 Key Findings
 
-- **Revenue grew 2.5×** in 2025 vs 2024, led by Germany and France (44% of total)
-- **52.9% blended gross margin**, but orders with 30%+ discounts compress margin by ~31pp
-- **98% customer retention** 2024→2025; ~7% of customers are At Risk and recoverable
-- **Netherlands underperforms targets** (68% achievement) despite high growth — targets or operations need review
-- Highest-margin brands (Lumière Maison, North Coast) are underrepresented in the revenue mix
+- **Revenue grew 2.5×** in 2025 vs 2024 (+152% YoY), led by Germany (€3.5M) and France (€2.8M) — ~43% of 2025 net revenue
+- **52.9% blended gross margin**, but orders with 30%+ discounts compress margin by 22pp (to 34.6% vs 56.6% at zero discount)
+- **98.3% customer retention** 2024→2025; ~8% of customers are At Risk and recoverable; Champions (22.2% of base) avg CLV €13,389
+- **Netherlands underperforms targets** (68.2% achievement) despite high growth — targets or operations need review
+- **6,720 orders carry discounts ≥30%** (8.2% of volume) — replacing deep promotional depth with loyalty mechanics is the highest-ROI margin lever
 
 ## 🤖 AI Disclosure
 
